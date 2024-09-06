@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input placeholder="enter message" id="input"></input>
+    <button id="btn">send</button>
+    <div id="server"></div>
+    <button id="disc">disconnect</button>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const input = document.getElementById('input');
+    const btn = document.getElementById('btn');
+    const server = document.getElementById('server');
+    const disc = document.getElementById('disc');
+    const socket = io();
+
+
+    btn.addEventListener('click', () => {
+        socket.emit('message', input.value);
+    
+    });
+
+    disc.addEventListener('click', () => {
+        socket.disconnect();
+    });
+
+    socket.on("server" , (message) => {
+        const item = document.createElement('li');
+        item.textContent = message;
+        server.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+    })
+</script>
+
+</html>
